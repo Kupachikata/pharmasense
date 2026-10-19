@@ -58,8 +58,8 @@ Status: `-` not started, `partial`, `done`.
 | NFR-08 | Integrity and audit: Audit and override tables are append-only for ... | M1 |  |  | - |
 | NFR-09 | Usability: System Usability Scale score of at least 70; a new dispe... | M8 |  |  | - |
 | NFR-10 | Explainability: Every alert, forecast and recommendation displays i... | M5 |  |  | - |
-| NFR-11 | Maintainability: Modular services with at least 70% unit-test cover... | M8 |  |  | - |
-| NFR-12 | Portability: Runs in containers on Ubuntu LTS; supported on current... | M0 |  |  | - |
+| NFR-11 | Maintainability: Modular services with at least 70% unit-test cover... | M8 | `backend/app/main.py` (OpenAPI at `/api/v1/openapi.json`); coverage report in CI | `backend/tests/test_api_contract.py` | partial |
+| NFR-12 | Portability: Runs in containers on Ubuntu LTS; supported on current... | M0, M8 | `docker-compose.yml`, `backend/Dockerfile`, `frontend/Dockerfile` | CI job `compose`; browser matrix in M8 | partial |
 | NFR-13 | Backup and recovery: Encrypted nightly off-site backup; recovery po... | M8 |  |  | - |
 | NFR-14 | Localisation: Prices and reports in USD and local currency; local f... | M5 |  |  | - |
 | NFR-15 | Image privacy: Prescription images are processed on the pharmacy’... | M7 |  |  | - |

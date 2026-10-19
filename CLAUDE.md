@@ -29,7 +29,7 @@ fourth objective. Prescription-audit (IPFS) and automated RFQ agents are future 
 ## Commands
 
 See README.md. Short form: `make up` (docker compose), `make test`, `make lint`, `make typecheck`.
-Without Docker: `make dev-db` (local Postgres 16 in `.pgdata/`), then `make test`.
+Host development: `make db-up` (or `make db-bootstrap` on a native PostgreSQL 16), then `make test`.
 Decisions taken where the spec is silent or conflicting are in `docs/decisions.md`; read it
 before changing schema, algorithms or clinical behaviour.
 
