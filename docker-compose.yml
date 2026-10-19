@@ -1,0 +1,52 @@
+# Development stack: PostgreSQL 16, FastAPI and the React app behind Nginx.
+# Copy .env.example to .env first. Open http://localhost:8080
+name: pharmasense
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      PHARMASENSE_OWNER_PASSWORD: ${PHARMASENSE_OWNER_PASSWORD:?set in .env}
+      PHARMASENSE_APP_PASSWORD: ${PHARMASENSE_APP_PASSWORD:?set in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/postgres/bootstrap.sh:/docker-entrypoint-initdb.d/10-bootstrap.sh:ro
+    ports:
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d pharmasense"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./backend
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      DATABASE_URL: postgresql+psycopg://pharmasense_app:${PHARMASENSE_APP_PASSWORD}@db:5432/pharmasense
+      MIGRATION_DATABASE_URL: postgresql+psycopg://pharmasense_owner:${PHARMASENSE_OWNER_PASSWORD}@db:5432/pharmasense
+      CORS_ORIGINS: '["http://localhost:8080","http://localhost:5173"]'
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  web:
+    build: ./frontend
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8080}:8080"
+
+volumes:
+  pgdata:

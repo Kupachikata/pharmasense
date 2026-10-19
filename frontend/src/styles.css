@@ -1,0 +1,22 @@
+:root {
+  --sidebar: #15293a;
+  --accent: #0f766e;
+  --ok-bg: #dcfce7;
+  --ok-fg: #166534;
+  --down-bg: #fee2e2;
+  --down-fg: #991b1b;
+  font-family: system-ui, sans-serif;
+  color: #1f2937;
+}
+body { margin: 0; background: #f3f4f6; }
+.shell { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: var(--sidebar); color: #e5e7eb; padding: 1.5rem 1rem; }
+.sidebar h1 { font-size: 1.4rem; margin: 0 0 1.5rem; }
+.sidebar h2 { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: #9ca3af; }
+.sidebar ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+.sidebar li { padding: 0.35rem 0; }
+main { flex: 1; padding: 1.5rem 2rem; }
+header { display: flex; justify-content: flex-end; }
+.badge { padding: 0.25rem 0.75rem; border-radius: 999px; background: #e5e7eb; font-size: 0.875rem; }
+.badge.ok { background: var(--ok-bg); color: var(--ok-fg); }
+.badge.down { background: var(--down-bg); color: var(--down-fg); }
