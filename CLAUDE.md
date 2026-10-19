@@ -16,13 +16,22 @@ fourth objective. Prescription-audit (IPFS) and automated RFQ agents are future 
 
 ## Source of truth
 
-- `docs/spec/PharmaSense_Documentation_Draft_v1.pdf` is the specification.
+- `docs/spec/PharmaSense_Documentation_Draft_v3.docx` is the specification. `docs/spec/spec.md`
+  (with `docs/spec/figures/`) is a pandoc text version for searching; if they differ, the .docx wins.
+  Regenerate with `make spec-md`.
   - Chapter 3: requirements (FR-01..FR-35, NFR-01..NFR-15), use cases UC01..UC25, problems P1..P9.
   - Chapter 4: architecture, ERDs and data dictionary (Section 4.4), feature table (Table 4.8),
     Algorithms 1 to 5 (Section 4.5.4), scan pipeline (4.5.5), screens (4.6).
 - If the spec is silent or ambiguous, choose the simplest option, and record it in
   `docs/decisions.md` (date, decision, reason). If the spec and these rules conflict, stop and ask.
 - Do not invent clinical content. See "Clinical safety rules" below.
+
+## Commands
+
+See README.md. Short form: `make up` (docker compose), `make test`, `make lint`, `make typecheck`.
+Without Docker: `make dev-db` (local Postgres 16 in `.pgdata/`), then `make test`.
+Decisions taken where the spec is silent or conflicting are in `docs/decisions.md`; read it
+before changing schema, algorithms or clinical behaviour.
 
 ## Fixed stack (do not swap without asking)
 
